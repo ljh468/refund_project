@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/szs
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true # print
+        format_sql: true
+
+szs:
+  security:
+    password-strength: 10
+    token-secret: "szs-secret"
+    access-token-issuer: "szs-api-access"
+    refresh-token-issuer: "szs-api-refresh"
+    access-token-expiration: PT12H
+    refresh-token-expiration: P60D
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
