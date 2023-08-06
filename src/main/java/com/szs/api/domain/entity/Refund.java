@@ -15,17 +15,15 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "Refund")
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Refund {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @EqualsAndHashCode.Include
   @Column(unique = true, name = "refundId")
   private Long id;
-
-  private Long calculatedTax;
 
   private Long determinedTax;
 
@@ -43,16 +41,6 @@ public class Refund {
   @JoinColumn(name = "userId")
   private User user;
 
-  @OneToOne(fetch = LAZY)
-  @JoinColumn(name = "scrapHistoryId")
-  private YearEndTaxScrapHistory yearEndTaxScrapHistory;
-
-  @OneToMany(mappedBy = "refund", cascade = CascadeType.ALL)
-  private List<Deduction> deductions  = new ArrayList<>();
-
-  @OneToMany(mappedBy = "refund", cascade = CascadeType.ALL)
-  private List<IncomeSalary> incomeSalaries = new ArrayList<>();
-
   protected Refund() {
   }
 
@@ -60,7 +48,6 @@ public class Refund {
   public String toString(){
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
         .append("id", id)
-        .append("calculatedTax", calculatedTax)
         .append("determinedTax", determinedTax)
         .append("retirePensionCredit", retirePensionCredit)
         .append("isCompleted", isCompleted)

@@ -1,6 +1,6 @@
 package com.szs.api.domain.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,21 +15,22 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "AnnualIncome")
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AnnualIncome {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @EqualsAndHashCode.Include
   @Column(unique = true, name = "annualIncomeId")
   private Long id;
 
-  private Long determinedTax;
+  @Column(nullable = false, unique = true)
+  private String incomeYear;
 
-  private Long retirePensionCredit;
+  private Long IncomeTotal;
 
-  private boolean isCompleted;
+  private Long calculatedTax;
 
   private boolean isDeleted;
 
@@ -49,13 +50,23 @@ public class AnnualIncome {
   @JoinColumn(name = "scrapHistoryId")
   private YearEndTaxScrapHistory yearEndTaxScrapHistory;
 
-  @OneToMany(mappedBy = "refund", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "annualIncome", cascade = CascadeType.ALL)
   private List<Deduction> deductions  = new ArrayList<>();
 
-  @OneToMany(mappedBy = "refund", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "annualIncome", cascade = CascadeType.ALL)
   private List<IncomeSalary> incomeSalaries = new ArrayList<>();
 
   protected AnnualIncome() {
+  }
+
+  @Builder
+  public AnnualIncome(String incomeYear, Long calculatedTax, boolean isDeleted) {
+    this.incomeYear = incomeYear;
+    this.calculatedTax = calculatedTax;
+    this.isDeleted = isDeleted;
+    LocalDateTime now = LocalDateTime.now();
+    this.createdAt = now;
+    this.updatedAt = now;
   }
 
   public void addUser(User user){
@@ -63,16 +74,25 @@ public class AnnualIncome {
     user.getAnnualIncomes().add(this);
   }
 
+  public void addYearEndTaxScrapHistory(YearEndTaxScrapHistory scrapHistory){
+    this.yearEndTaxScrapHistory = scrapHistory;
+    scrapHistory.addAnnualIncome(this);
+  }
+
   @Override
   public String toString(){
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
         .append("id", id)
-        .append("determinedTax", determinedTax)
-        .append("retirePensionCredit", retirePensionCredit)
-        .append("isCompleted", isCompleted)
+        .append("incomeYear", incomeYear)
+        .append("IncomeTotal", IncomeTotal)
+        .append("calculatedTax", calculatedTax)
         .append("isDeleted", isDeleted)
         .append("createdAt", createdAt)
         .append("updatedAt", updatedAt)
         .toString();
+  }
+
+  public void updateIncomeTotal(Long incomeTotal) {
+    this.IncomeTotal = incomeTotal;
   }
 }

@@ -2,6 +2,7 @@ package com.szs.api.domain.entity;
 
 import com.szs.api.domain.type.PaymentType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,7 +13,6 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Deduction {
@@ -26,13 +26,24 @@ public class Deduction {
   @Enumerated(EnumType.STRING)
   private PaymentType paymentType;
 
-  private Long paymentAmount;
+  private Double paymentAmount;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "refundId")
-  private Refund refund;
+  @JoinColumn(name = "annualIncomeId")
+  private AnnualIncome annualIncome;
 
   protected Deduction() {
+  }
+
+  @Builder
+  public Deduction(PaymentType paymentType, Double paymentAmount) {
+    this.paymentType = paymentType;
+    this.paymentAmount = paymentAmount;
+  }
+
+  public void addAnnualIncome(AnnualIncome annualIncome) {
+    this.annualIncome = annualIncome;
+    annualIncome.getDeductions().add(this);
   }
 
   @Override

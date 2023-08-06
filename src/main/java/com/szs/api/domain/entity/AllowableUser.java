@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class AllowableUser {
 
   @Id
-  @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @EqualsAndHashCode.Include
   @Column(name = "allowableUserId")
   private Long id;
 

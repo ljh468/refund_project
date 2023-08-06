@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface YearEndTaxScrapRepository extends JpaRepository<YearEndTaxScrapHistory, Long> {
+public interface YearEndTaxScrapHistoryRepository extends JpaRepository<YearEndTaxScrapHistory, Long> {
 
 }

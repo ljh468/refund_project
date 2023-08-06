@@ -1,6 +1,7 @@
 package com.szs.api.domain.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,14 +9,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "IncomeSalary")
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class IncomeSalary {
@@ -43,10 +41,27 @@ public class IncomeSalary {
   private LocalDate workEndDate;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "refundId")
-  private Refund refund;
+  @JoinColumn(name = "annualIncomeId")
+  private AnnualIncome annualIncome;
 
   protected IncomeSalary() {
+  }
+
+  @Builder
+  public IncomeSalary(String incomeDetail, String incomeType, String companyName, String companyRegNo, Long paymentTotal, LocalDate paymentDate, LocalDate workStartDate, LocalDate workEndDate) {
+    this.incomeDetail = incomeDetail;
+    this.incomeType = incomeType;
+    this.companyName = companyName;
+    this.companyRegNo = companyRegNo;
+    this.paymentTotal = paymentTotal;
+    this.paymentDate = paymentDate;
+    this.workStartDate = workStartDate;
+    this.workEndDate = workEndDate;
+  }
+
+  public void addAnnualIncome(AnnualIncome annualIncome) {
+    this.annualIncome = annualIncome;
+    annualIncome.getIncomeSalaries().add(this);
   }
 
   @Override
