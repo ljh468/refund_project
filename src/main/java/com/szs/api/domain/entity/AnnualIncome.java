@@ -14,18 +14,16 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Table(name = "Refund")
+@Table(name = "AnnualIncome")
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Refund {
+public class AnnualIncome {
 
   @Id
   @EqualsAndHashCode.Include
-  @Column(unique = true, name = "refundId")
+  @Column(unique = true, name = "annualIncomeId")
   private Long id;
-
-  private Long calculatedTax;
 
   private Long determinedTax;
 
@@ -44,6 +42,10 @@ public class Refund {
   private User user;
 
   @OneToOne(fetch = LAZY)
+  @JoinColumn(name = "refundId")
+  private Refund refund;
+
+  @OneToOne(fetch = LAZY)
   @JoinColumn(name = "scrapHistoryId")
   private YearEndTaxScrapHistory yearEndTaxScrapHistory;
 
@@ -53,14 +55,18 @@ public class Refund {
   @OneToMany(mappedBy = "refund", cascade = CascadeType.ALL)
   private List<IncomeSalary> incomeSalaries = new ArrayList<>();
 
-  protected Refund() {
+  protected AnnualIncome() {
+  }
+
+  public void addUser(User user){
+    this.user = user;
+    user.getAnnualIncomes().add(this);
   }
 
   @Override
   public String toString(){
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
         .append("id", id)
-        .append("calculatedTax", calculatedTax)
         .append("determinedTax", determinedTax)
         .append("retirePensionCredit", retirePensionCredit)
         .append("isCompleted", isCompleted)
