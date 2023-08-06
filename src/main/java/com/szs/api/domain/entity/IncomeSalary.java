@@ -42,6 +42,10 @@ public class IncomeSalary {
 
   private LocalDate workEndDate;
 
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "refundId")
+  private Refund refund;
+
   protected IncomeSalary() {
   }
 

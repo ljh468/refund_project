@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -25,6 +27,10 @@ public class Deduction {
   private PaymentType paymentType;
 
   private Long paymentAmount;
+
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "refundId")
+  private Refund refund;
 
   protected Deduction() {
   }

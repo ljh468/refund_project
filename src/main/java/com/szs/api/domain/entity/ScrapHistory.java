@@ -7,11 +7,10 @@ import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "ScrapHistory")
@@ -40,6 +39,10 @@ public class ScrapHistory {
   private LocalDateTime workerReqDt;
 
   private LocalDateTime createdAt;
+
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "userId")
+  private User user;
 
   protected ScrapHistory() {
   }
