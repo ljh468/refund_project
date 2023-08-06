@@ -1,7 +1,6 @@
 package com.szs.api.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -17,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class ScrapHistory {
+public class YearEndTaxScrapHistory {
 
   @Id
   @EqualsAndHashCode.Include
@@ -44,7 +43,7 @@ public class ScrapHistory {
   @JoinColumn(name = "userId")
   private User user;
 
-  protected ScrapHistory() {
+  protected YearEndTaxScrapHistory() {
   }
 
   @Override

@@ -36,6 +36,9 @@ public class User {
 
   private LocalDateTime updatedAt;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<AnnualIncome> annualIncomes = new ArrayList<>();
+
   @Builder
   public User(String id, String password, String name, int regNoFront, int regNoBack) {
     this.id = id;
