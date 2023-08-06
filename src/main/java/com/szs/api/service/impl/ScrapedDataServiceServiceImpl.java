@@ -47,6 +47,17 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
       saveAnnualIncome(newAnnualIncome);
     }
   }
+  
+  private AnnualIncome generateAnnualIncome(User user, YearEndTaxScrapHistory scrapHistory, DataResponse data) {
+    AnnualIncome annualIncome = AnnualIncome.builder()
+                                            .incomeYear(String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear()))
+                                            .calculatedTax(data.getJsonList().getCalculatedTax())
+                                            .isDeleted(false)
+                                            .build();
+    annualIncome.addUser(user);
+    annualIncome.addYearEndTaxScrapHistory(scrapHistory);
+    return annualIncome;
+  }
 
   @Transactional
   public YearEndTaxScrapHistory saveYearEndYaxScrapHistory(DataResponse data, User user) {
@@ -65,13 +76,11 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
 
   @Transactional
   public void saveAnnualIncome(AnnualIncome annualIncome) {
-    log.info("saveAnnualIncome");
     annualIncomeService.save(annualIncome);
   }
 
   @Transactional
   public AtomicReference<Long> saveIncomeSalary(DataResponse data, AnnualIncome annualIncome) {
-    log.info("saveIncomeSalary");
     AtomicReference<Long> totalIncome = new AtomicReference<>(0L);
     List<IncomeSalary> incomeSalaries = new ArrayList<>();
     data.getJsonList().getIncomeSalaries().forEach(
@@ -97,28 +106,16 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
 
   @Transactional
   public void saveDeduction(DataResponse data, AnnualIncome annualIncome) {
-    log.info("saveDeduction");
     List<Deduction> deductions = new ArrayList<>();
     data.getJsonList().getDeductions().forEach(
         response -> {
           Deduction deduction = Deduction.builder()
-                                     .paymentType(PaymentType.fromName(response.getPaymentType()))
-                                     .paymentAmount(response.getPaymentAmount())
-                                     .build();
+                                         .paymentType(PaymentType.fromName(response.getPaymentType()))
+                                         .paymentAmount(response.getPaymentAmount())
+                                         .build();
           deduction.addAnnualIncome(annualIncome);
           deductions.add(deduction);
         });
     deductionService.saveAll(deductions);
-  }
-
-  private AnnualIncome generateAnnualIncome(User user, YearEndTaxScrapHistory scrapHistory, DataResponse data) {
-    AnnualIncome annualIncome = AnnualIncome.builder()
-                                            .incomeYear(String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear()))
-                                            .calculatedTax(data.getJsonList().getCalculatedTax())
-                                            .isDeleted(false)
-                                            .build();
-    annualIncome.addUser(user);
-    annualIncome.addYearEndTaxScrapHistory(scrapHistory);
-    return annualIncome;
   }
 }
