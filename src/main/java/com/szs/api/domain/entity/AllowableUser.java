@@ -1,6 +1,5 @@
 package com.szs.api.domain.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,21 +7,20 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Users")
-@AllArgsConstructor
+@Table(name = "AllowableUser")
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+public class AllowableUser {
 
   @Id
   @EqualsAndHashCode.Include
-  @Column(unique = true, name = "userId")
-  private String id;
-
-  private String password;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "allowableUserId")
+  private Long id;
 
   private String name;
 
@@ -35,9 +33,7 @@ public class User {
   private LocalDateTime updatedAt;
 
   @Builder
-  public User(String id, String password, String name, int regNoFront, int regNoBack) {
-    this.id = id;
-    this.password = password;
+  public AllowableUser(String name, Integer regNoFront, Integer regNoBack){
     this.name = name;
     this.regNoFront = regNoFront;
     this.regNoBack = regNoBack;
@@ -46,7 +42,7 @@ public class User {
     this.updatedAt = now;
   }
 
-  protected User() {
+  protected AllowableUser() {
   }
 
   @Override
@@ -54,8 +50,8 @@ public class User {
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
         .append("id", id)
         .append("name", name)
-        .append("createdAt", createdAt)
-        .append("updatedAt", updatedAt)
+        .append("createdDate", createdAt)
+        .append("updatedDate", updatedAt)
         .toString();
   }
 }
