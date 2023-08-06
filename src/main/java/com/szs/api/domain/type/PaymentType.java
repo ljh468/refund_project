@@ -22,4 +22,12 @@ public enum PaymentType {
     return name;
   }
 
+  public static PaymentType fromName(String name) {
+    for (PaymentType type : PaymentType.values()) {
+      if (type.name.equalsIgnoreCase(name)) {
+        return type;
+      }
+    }
+    throw new IllegalArgumentException("No PaymentType with name " + name + " found");
+  }
 }

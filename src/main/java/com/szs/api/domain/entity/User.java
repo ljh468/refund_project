@@ -14,7 +14,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Users")
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
@@ -28,9 +27,9 @@ public class User {
 
   private String name;
 
-  private int regNoFront;
+  private Integer regNoFront;
 
-  private int regNoBack;
+  private Integer regNoBack;
 
   private LocalDateTime createdAt;
 
@@ -40,7 +39,7 @@ public class User {
   private List<AnnualIncome> annualIncomes = new ArrayList<>();
 
   @Builder
-  public User(String id, String password, String name, int regNoFront, int regNoBack) {
+  public User(String id, String password, String name, Integer regNoFront, Integer regNoBack) {
     this.id = id;
     this.password = password;
     this.name = name;
