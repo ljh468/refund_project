@@ -3,21 +3,19 @@ package com.szs.api.service.impl;
 import com.szs.api.domain.entity.IncomeSalary;
 import com.szs.api.repository.IncomeSalaryRepository;
 import com.szs.api.service.IncomeSalaryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class IncomeSalaryServiceImpl implements IncomeSalaryService {
 
   private final IncomeSalaryRepository incomeSalaryRepository;
-
-  @Autowired
-  public IncomeSalaryServiceImpl(IncomeSalaryRepository incomeSalaryRepository) {
-    this.incomeSalaryRepository = incomeSalaryRepository;
-  }
 
   @Override
   @Transactional
