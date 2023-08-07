@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.stream.Stream;
 
-import static com.szs.api.util.JsonUtils.fromJsonList;
+import static com.szs.util.JsonUtils.fromJsonList;
+
 
 @Slf4j
 @Component

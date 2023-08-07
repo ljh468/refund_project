@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/szs")
 @RequiredArgsConstructor
-public class ScrapController {
+public class RefundController {
 
   private final YearEndTaxScrapHistoryService yearEndTaxScrapHistoryService;
 
