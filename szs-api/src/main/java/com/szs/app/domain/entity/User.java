@@ -1,0 +1,64 @@
+package com.szs.app.domain.entity;
+
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Users")
+@Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class User {
+
+  @Id
+  @EqualsAndHashCode.Include
+  @Column(unique = true, name = "userId")
+  private String id;
+
+  private String password;
+
+  private String name;
+
+  private Integer regNoFront;
+
+  private Integer regNoBack;
+
+  private LocalDateTime createdAt;
+
+  private LocalDateTime updatedAt;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<AnnualIncome> annualIncomes = new ArrayList<>();
+
+  @Builder
+  public User(String id, String password, String name, Integer regNoFront, Integer regNoBack) {
+    this.id = id;
+    this.password = password;
+    this.name = name;
+    this.regNoFront = regNoFront;
+    this.regNoBack = regNoBack;
+    LocalDateTime now = LocalDateTime.now();
+    this.createdAt = now;
+    this.updatedAt = now;
+  }
+
+  protected User() {
+  }
+
+  @Override
+  public String toString(){
+    return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+        .append("id", id)
+        .append("name", name)
+        .append("createdAt", createdAt)
+        .append("updatedAt", updatedAt)
+        .toString();
+  }
+}
