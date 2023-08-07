@@ -1,4 +1,4 @@
-package com.szs.api.util;
+package com.szs.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;

@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.szs.api.util.JsonUtils.mapToJson;
+import static com.szs.util.JsonUtils.mapToJson;
+
 
 @Slf4j
 public class SzsRestApiHelper {
