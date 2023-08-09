@@ -77,25 +77,21 @@ public class TokenProvider implements InitializingBean {
                                                                .collect(Collectors.toList());
     
     User principal = new User(claims.get(TOKEN_CLAIM_USER_ID).toString(), "", authorities);
-    System.out.println("principal = " + principal);
-    System.out.println("principal.getUsername() = " + principal.getUsername());
-    System.out.println("principal.getAuthorities() = " + principal.getAuthorities());
     return new UsernamePasswordAuthenticationToken(principal, token, authorities);
   }
 
-  // 토큰의 유효성 검증을 수행하는 validateToken 메소드
   public boolean validateToken(String token) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
       return true;
     } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-      log.info("잘못된 JWT 서명입니다.");
+      log.debug("Invalid signature jwt token");
     } catch (ExpiredJwtException e) {
-      log.info("만료된 JWT 토큰입니다.");
+      log.debug("Expired jwt token");
     } catch (UnsupportedJwtException e) {
-      log.info("지원되지 않는 JWT 토큰입니다.");
+      log.debug("Unsupported jwt token");
     } catch (IllegalArgumentException e) {
-      log.info("JWT 토큰이 잘못되었습니다.");
+      log.debug("Invalid JWT token");
     }
     return false;
   }

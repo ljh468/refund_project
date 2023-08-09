@@ -7,18 +7,11 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @RequiredArgsConstructor
-public class SignUpInput {
+public class SignInput {
 
   @NotNull
   private final String userId;
 
   @NotNull
   private final String password;
-
-  @NotNull
-  private final String name;
-
-  @NotNull
-  //FIXME 주민등록 번호 validation 추가
-  private final String regNo;
 }

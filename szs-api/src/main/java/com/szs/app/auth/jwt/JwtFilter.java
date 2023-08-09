@@ -36,10 +36,10 @@ public class JwtFilter extends GenericFilterBean {
     try {
       getToken(httpRequest)
           .filter(not(String::isEmpty))
+          .filter(tokenProvider::validateToken)
           .map(tokenProvider::getAuthentication)
           .ifPresent(authentication -> SecurityContextHolder.getContext().setAuthentication(authentication));
-    } catch (BadCredentialsException badCredentialsException) {
-      log.debug("BadCredentialsException");
+    } catch (BadCredentialsException ignore) {
     } finally {
       filterChain.doFilter(request, response);
     }
