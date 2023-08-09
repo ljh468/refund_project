@@ -1,5 +1,6 @@
 package com.szs.app.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,7 +16,9 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "AnnualIncome")
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AnnualIncome {
 
@@ -57,16 +60,6 @@ public class AnnualIncome {
   private List<IncomeSalary> incomeSalaries = new ArrayList<>();
 
   protected AnnualIncome() {
-  }
-
-  @Builder
-  public AnnualIncome(String incomeYear, Long calculatedTax, boolean isDeleted) {
-    this.incomeYear = incomeYear;
-    this.calculatedTax = calculatedTax;
-    this.isDeleted = isDeleted;
-    LocalDateTime now = LocalDateTime.now();
-    this.createdAt = now;
-    this.updatedAt = now;
   }
 
   public void addUser(User user){

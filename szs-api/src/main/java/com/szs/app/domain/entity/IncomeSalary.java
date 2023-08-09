@@ -1,5 +1,6 @@
 package com.szs.app.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,7 +14,9 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "IncomeSalary")
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class IncomeSalary {
 
@@ -44,18 +47,6 @@ public class IncomeSalary {
   private AnnualIncome annualIncome;
 
   protected IncomeSalary() {
-  }
-
-  @Builder
-  public IncomeSalary(String incomeDetail, String incomeType, String companyName, String companyRegNo, Long paymentTotal, LocalDate paymentDate, LocalDate workStartDate, LocalDate workEndDate) {
-    this.incomeDetail = incomeDetail;
-    this.incomeType = incomeType;
-    this.companyName = companyName;
-    this.companyRegNo = companyRegNo;
-    this.paymentTotal = paymentTotal;
-    this.paymentDate = paymentDate;
-    this.workStartDate = workStartDate;
-    this.workEndDate = workEndDate;
   }
 
   public void addAnnualIncome(AnnualIncome annualIncome) {
