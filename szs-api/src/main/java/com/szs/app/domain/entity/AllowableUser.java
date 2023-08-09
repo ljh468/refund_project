@@ -1,5 +1,6 @@
 package com.szs.app.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,7 +12,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "AllowableUser")
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AllowableUser {
 
@@ -23,23 +26,13 @@ public class AllowableUser {
 
   private String name;
 
-  private int regNoFront;
+  private String regNoFront;
 
-  private int regNoBack;
+  private String regNoBack;
 
   private LocalDateTime createdAt;
 
   private LocalDateTime updatedAt;
-
-  @Builder
-  public AllowableUser(String name, Integer regNoFront, Integer regNoBack){
-    this.name = name;
-    this.regNoFront = regNoFront;
-    this.regNoBack = regNoBack;
-    LocalDateTime now = LocalDateTime.now();
-    this.createdAt = now;
-    this.updatedAt = now;
-  }
 
   protected AllowableUser() {
   }

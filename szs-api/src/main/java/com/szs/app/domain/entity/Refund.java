@@ -1,5 +1,6 @@
 package com.szs.app.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,6 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "Refund")
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Refund {
 

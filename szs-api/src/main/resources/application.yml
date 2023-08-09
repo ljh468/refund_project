@@ -8,11 +8,18 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true # print
         format_sql: true
+
+szs:
+  security:
+    # HS512 64byte
+    # echo 'jarvis-and-villains-a-service-that-makes-you-a-great-hero-access-token'|base64
+    access-token-issuer: amFydmlzLWFuZC12aWxsYWlucy1hLXNlcnZpY2UtdGhhdC1tYWtlcy15b3UtYS1ncmVhdC1oZXJvLWFjY2Vzcy10b2tlbgo=
+    access-token-expiration: PT12H
 
 logging:
   level:

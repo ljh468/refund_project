@@ -1,6 +1,7 @@
 package com.szs.app.domain.entity;
 
 import com.szs.app.domain.type.PaymentType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,7 +13,9 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Deduction {
 
@@ -32,12 +35,6 @@ public class Deduction {
   private AnnualIncome annualIncome;
 
   protected Deduction() {
-  }
-
-  @Builder
-  public Deduction(PaymentType paymentType, Double paymentAmount) {
-    this.paymentType = paymentType;
-    this.paymentAmount = paymentAmount;
   }
 
   public void addAnnualIncome(AnnualIncome annualIncome) {

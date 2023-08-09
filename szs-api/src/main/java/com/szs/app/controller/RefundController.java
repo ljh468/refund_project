@@ -1,6 +1,7 @@
 package com.szs.app.controller;
 
 import com.szs.app.domain.entity.User;
+import com.szs.app.domain.type.RoleType;
 import com.szs.app.global.scrap.response.ApiResponse;
 import com.szs.app.repository.UserRepository;
 import com.szs.app.service.ScrapedDataService;
@@ -26,19 +27,10 @@ public class RefundController {
 
   @PostMapping("/scrap")
   public ResponseEntity<?> scrap() {
-    log.info(" scrap start ");
     //FIXME 더미데이터
-    User user = User.builder()
-                    .id("ljh468")
-                    .name("베지터")
-                    .password("1234")
-                    .regNoFront(910411)
-                    .regNoBack(1656116)
-                    .build();
-    userRepository.save(user);
-    ApiResponse scrap = yearEndTaxScrapHistoryService.scrap(user.getName(), user.getRegNoFront(), user.getRegNoBack());
-    scrapedDataService.saveScrappedData(scrap, user);
-    return ResponseEntity.ok(scrap);
+    // userRepository.save(user);
+    // ApiResponse scrap = yearEndTaxScrapHistoryService.scrap(user.getName(), user.getRegNoFront(), user.getRegNoBack());
+    // scrapedDataService.saveScrappedData(scrap, user);
+    return ResponseEntity.ok(null);
   }
-
 }

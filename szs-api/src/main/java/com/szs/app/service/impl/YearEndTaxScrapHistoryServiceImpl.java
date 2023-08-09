@@ -22,7 +22,7 @@ public class YearEndTaxScrapHistoryServiceImpl implements YearEndTaxScrapHistory
   private final YearEndTaxScrapHistoryRepository yearEndTaxScrapHistoryRepository;
 
   @Override
-  public ApiResponse scrap(String name, Integer regNoFront, Integer regNoBack) {
+  public ApiResponse scrap(String name, String regNoFront, String regNoBack) {
     SzsRestApiHelper apiHelper = new SzsRestApiHelper();
     Map<String, Object> request = apiHelper.newScrapByUserRequest(name, regNoFront+"-"+regNoBack);
 

@@ -1,5 +1,6 @@
 package com.szs.app.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,10 +11,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
 
@@ -26,9 +30,13 @@ public class User {
 
   private String name;
 
-  private Integer regNoFront;
+  private String regNoFront;
 
-  private Integer regNoBack;
+  private String regNoBack;
+
+  private boolean isActivated;
+
+  private boolean isDeleted;
 
   private LocalDateTime createdAt;
 
@@ -37,17 +45,11 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<AnnualIncome> annualIncomes = new ArrayList<>();
 
-  @Builder
-  public User(String id, String password, String name, Integer regNoFront, Integer regNoBack) {
-    this.id = id;
-    this.password = password;
-    this.name = name;
-    this.regNoFront = regNoFront;
-    this.regNoBack = regNoBack;
-    LocalDateTime now = LocalDateTime.now();
-    this.createdAt = now;
-    this.updatedAt = now;
-  }
+  @ManyToMany
+  @JoinTable(name = "userAuthority",
+      joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "userId")},
+      inverseJoinColumns = {@JoinColumn(name = "authorityName", referencedColumnName = "authorityName")})
+  private Set<Authority> authorities;
 
   protected User() {
   }
@@ -57,6 +59,8 @@ public class User {
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
         .append("id", id)
         .append("name", name)
+        .append("isActivated", isActivated)
+        .append("isDeleted", isDeleted)
         .append("createdAt", createdAt)
         .append("updatedAt", updatedAt)
         .toString();

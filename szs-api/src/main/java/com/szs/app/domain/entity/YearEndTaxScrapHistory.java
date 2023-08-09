@@ -11,8 +11,9 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "YearEndTaxScrapHistory")
-@AllArgsConstructor
+@Builder
 @Getter
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class YearEndTaxScrapHistory {
 
@@ -44,18 +45,6 @@ public class YearEndTaxScrapHistory {
 
   @OneToOne(mappedBy = "yearEndTaxScrapHistory", cascade = CascadeType.ALL)
   private AnnualIncome annualIncome;
-
-  @Builder
-  public YearEndTaxScrapHistory(String appVer, String errMsg, String svcCd, String company, String hostNm, LocalDateTime workerResDt, LocalDateTime workerReqDt, LocalDateTime createdAt) {
-    this.appVer = appVer;
-    this.errMsg = errMsg;
-    this.svcCd = svcCd;
-    this.company = company;
-    this.hostNm = hostNm;
-    this.workerResDt = workerResDt;
-    this.workerReqDt = workerReqDt;
-    this.createdAt = LocalDateTime.now();
-  }
 
   protected YearEndTaxScrapHistory() {
   }

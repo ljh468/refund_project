@@ -1,6 +1,8 @@
-package com.szs.app.global;
+package com.szs.app.global.listener;
 
 import com.szs.app.domain.entity.AllowableUser;
+import com.szs.app.domain.entity.Authority;
+import com.szs.app.repository.AuthorityRepository;
 import com.szs.app.service.AllowableUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,16 @@ import static com.szs.util.JsonUtils.fromJsonList;
 
 @Slf4j
 @Component
-public class AllowableUserApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
+public class AuthorityApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 
   private final ResourceLoader resourceLoader;
 
-  private final AllowableUserService allowableUserService;
+  private final AuthorityRepository authorityRepository;
 
   @Autowired
-  public AllowableUserApplicationListener(ResourceLoader resourceLoader, AllowableUserService allowableUserService) {
+  public AuthorityApplicationListener(ResourceLoader resourceLoader, AuthorityRepository authorityRepository) {
     this.resourceLoader = resourceLoader;
-    this.allowableUserService = allowableUserService;
+    this.authorityRepository = authorityRepository;
   }
 
   @Override
@@ -37,20 +39,20 @@ public class AllowableUserApplicationListener implements ApplicationListener<Con
   }
 
   private void loadAllowableUser() {
-    readJson().forEach(allowableUser -> {
-      if (allowableUserService.isExistsByNameAndRegNo(allowableUser.getName(), allowableUser.getRegNoFront(), allowableUser.getRegNoBack())) {
-        log.info("AllowableUser already exists in DB :: {}", allowableUser.getName());
+    readJson().forEach(authority -> {
+      if (authorityRepository.existsById(authority.getAuthorityName())) {
+        log.info("Authority already exists in DB :: {}", authority.getAuthorityName());
         return;
       }
-      allowableUserService.create(allowableUser);
+      authorityRepository.save(authority);
     });
   }
 
-  public Stream<AllowableUser> readJson() {
-    Stream<AllowableUser> stream = Stream.empty();
+  public Stream<Authority> readJson() {
+    Stream<Authority> stream = Stream.empty();
     try {
-      InputStream inputStream = resourceLoader.getResource("classpath:allowableUser.json").getInputStream();
-      stream = fromJsonList(inputStream, AllowableUser.class).stream();
+      InputStream inputStream = resourceLoader.getResource("classpath:authority.json").getInputStream();
+      stream = fromJsonList(inputStream, Authority.class).stream();
     } catch (IOException | NullPointerException exception) {
       log.error("file not found: {}", exception.getMessage());
     }

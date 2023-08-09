@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -39,19 +40,21 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
     if (nonNull(data)) {
       //FIXME AnnualIncome(연간소득)데이터가 존재하는지 확인하는 로직 필요
       YearEndTaxScrapHistory scrapHistory = saveYearEndYaxScrapHistory(data, user);
-      AnnualIncome annualIncome = generateAnnualIncome(user, scrapHistory, data);
-      AnnualIncome newAnnualIncome = annualIncomeRepository.save(annualIncome);
+      AnnualIncome newAnnualIncome = annualIncomeRepository.save(generateAnnualIncome(user, scrapHistory, data));
       AtomicReference<Long> totalIncome = saveIncomeSalary(data, newAnnualIncome);
       newAnnualIncome.updateIncomeTotal(totalIncome.get());
       saveDeduction(data, newAnnualIncome);
       saveAnnualIncome(newAnnualIncome);
     }
   }
-  
+
   private AnnualIncome generateAnnualIncome(User user, YearEndTaxScrapHistory scrapHistory, DataResponse data) {
+    LocalDateTime now = LocalDateTime.now();
     AnnualIncome annualIncome = AnnualIncome.builder()
                                             .incomeYear(String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear()))
                                             .calculatedTax(data.getJsonList().getCalculatedTax())
+                                            .createdAt(now)
+                                            .updatedAt(now)
                                             .isDeleted(false)
                                             .build();
     annualIncome.addUser(user);
@@ -69,6 +72,7 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
                                                                 .hostNm(data.getHostNm())
                                                                 .workerResDt(data.getWorkerResDt())
                                                                 .workerReqDt(data.getWorkerReqDt())
+                                                                .createdAt(LocalDateTime.now())
                                                                 .build();
     scrapHistory.addUser(user);
     return yearEndTaxScrapHistoryService.save(scrapHistory);
