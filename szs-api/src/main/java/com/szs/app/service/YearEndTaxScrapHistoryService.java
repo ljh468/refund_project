@@ -7,6 +7,6 @@ public interface YearEndTaxScrapHistoryService {
 
   YearEndTaxScrapHistory save(YearEndTaxScrapHistory yearEndTaxScrapHistory);
 
-  ApiResponse scrap(String name, Integer regNoFront, Integer regNoBack);
+  ApiResponse scrap(String name, String regNoFront, String regNoBack);
 
 }
