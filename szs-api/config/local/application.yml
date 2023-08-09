@@ -9,7 +9,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true # print
@@ -17,12 +17,10 @@ spring:
 
 szs:
   security:
-    password-strength: 10
-    token-secret: "szs-secret"
-    access-token-issuer: "szs-api-access"
-    refresh-token-issuer: "szs-api-refresh"
+    # HS512 64byte
+    # echo 'jarvis-and-villains-a-service-that-makes-you-a-great-hero-access-token'|base64
+    access-token-issuer: amFydmlzLWFuZC12aWxsYWlucy1hLXNlcnZpY2UtdGhhdC1tYWtlcy15b3UtYS1ncmVhdC1oZXJvLWFjY2Vzcy10b2tlbgo=
     access-token-expiration: PT12H
-    refresh-token-expiration: P60D
 
 logging:
   level:
