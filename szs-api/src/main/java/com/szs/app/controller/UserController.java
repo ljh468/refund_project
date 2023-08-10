@@ -1,6 +1,7 @@
 package com.szs.app.controller;
 
 import com.szs.app.auth.AuthService;
+import com.szs.app.auth.exception.BedCredentialsException;
 import com.szs.app.auth.exception.RegistrationNotAllowedException;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
 import com.szs.app.auth.jwt.JwtFilter;
@@ -25,6 +26,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.login.CredentialException;
 
 @Slf4j
 @RestController
@@ -60,7 +63,7 @@ public class UserController {
       throw registrationNotAllowedException;
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw runtimeException;
+      throw new BedCredentialsException("bad credentials");
     }
   }
 
@@ -71,15 +74,12 @@ public class UserController {
       HttpHeaders headers = createHeadersWithToken(newToken);
       return new ResponseEntity<>(new TokenResponse(newToken), headers, HttpStatus.OK);
 
-    } catch (BadCredentialsException badCredentialsException) {
-      log.debug("bad credentials");
-      throw badCredentialsException;
     } catch (UserAlreadyExistsException userAlreadyExistsException) {
       log.debug("user already exists with userId");
       throw userAlreadyExistsException;
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw runtimeException;
+      throw new BedCredentialsException("bad credentials");
     }
   }
 
@@ -92,7 +92,7 @@ public class UserController {
 
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw runtimeException;
+      throw new BedCredentialsException(runtimeException.getMessage(), runtimeException.getCause());
     }
   }
 
