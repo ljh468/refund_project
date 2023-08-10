@@ -53,7 +53,6 @@ public class TokenProvider implements InitializingBean {
     this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessTokenIssuer));
   }
 
-  // User 객체의 권한정보를 이용해서 토큰을 생성하는 메소드
   public String createToken(Authentication authentication) {
     Instant now = Instant.now();
     Date newAccessTokenExpiresAt = Date.from(now.plus(accessTokenExpiration));

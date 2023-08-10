@@ -17,7 +17,12 @@ public class AnnualIncomeServiceImpl implements AnnualIncomeService {
 
   @Override
   @Transactional
-  public void save(AnnualIncome annualIncome) {
-    annualIncomeRepository.save(annualIncome);
+  public AnnualIncome save(AnnualIncome annualIncome) {
+    return annualIncomeRepository.save(annualIncome);
+  }
+
+  @Override
+  public AnnualIncome findByUserIdAndIncomeYearNotDeleted(String userId, String valueOf) {
+    return annualIncomeRepository.findByUserIdAndIncomeYearAndIsDeletedFalse(userId, valueOf);
   }
 }

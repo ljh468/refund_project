@@ -1,7 +1,9 @@
-package com.szs.app.domain.dto;
+package com.szs.app.domain.input;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.NotNull;
 
@@ -21,4 +23,13 @@ public class SignUpInput {
   @NotNull
   //FIXME 주민등록 번호 validation 추가
   private final String regNo;
+
+  @Override
+  public String toString(){
+    return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+        .append("userId", userId)
+        .append("name", name)
+        .append("regNo", regNo)
+        .toString();
+  }
 }

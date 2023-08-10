@@ -37,7 +37,6 @@ public class SecurityConfig {
   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
   @Bean
-  // 비밀번호 암호화에 필요한 PasswordEncoder를 Bean 등록합니다.
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
@@ -64,10 +63,7 @@ public class SecurityConfig {
 
         // 세션을 사용하지 않기 때문에 STATELESS로 설정
         .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-        // enable h2-console
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-        // JwtFilter를 `addFilterBefore로` 등록했던 JwtSecurityConfig 클래스도 적용
         .apply(new JwtSecurityConfig(tokenProvider));
 
     return httpSecurity.build();

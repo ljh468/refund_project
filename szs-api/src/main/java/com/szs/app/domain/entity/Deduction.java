@@ -13,7 +13,6 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Builder
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -35,6 +34,12 @@ public class Deduction {
   private AnnualIncome annualIncome;
 
   protected Deduction() {
+  }
+
+  @Builder
+  public Deduction(PaymentType paymentType, Double paymentAmount) {
+    this.paymentType = paymentType;
+    this.paymentAmount = paymentAmount;
   }
 
   public void addAnnualIncome(AnnualIncome annualIncome) {

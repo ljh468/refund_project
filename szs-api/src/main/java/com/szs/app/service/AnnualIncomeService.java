@@ -4,6 +4,7 @@ import com.szs.app.domain.entity.AnnualIncome;
 
 public interface AnnualIncomeService {
 
-  void save(AnnualIncome annualIncome);
+  AnnualIncome save(AnnualIncome annualIncome);
 
+  AnnualIncome findByUserIdAndIncomeYearNotDeleted(String userId, String valueOf);
 }

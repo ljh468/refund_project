@@ -20,7 +20,6 @@ import static java.util.function.Predicate.not;
 
 @Slf4j
 @RequiredArgsConstructor
-// JWT를 위한 커스텀 필터를 만들기 위해 JwtFilter 생성
 public class JwtFilter extends GenericFilterBean {
 
   public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -29,7 +28,7 @@ public class JwtFilter extends GenericFilterBean {
 
   private final TokenProvider tokenProvider;
 
-  // JWT 토큰의 인증정보를 현재 실행중인 Security Context에 저장하기 위함
+  // JWT 토큰의 인증정보를 현재 실행중인 Security Context에 저장
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -45,7 +44,7 @@ public class JwtFilter extends GenericFilterBean {
     }
   }
 
-  // Header에서 토큰 정보를 꺼내오기 위한 getToken 메서드 추가
+  // Header에서 토큰 정보를 꺼내오기 위한 getToken 메서드
   private Optional<String> getToken(HttpServletRequest request) {
     return Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
                    .filter(not(String::isEmpty))
