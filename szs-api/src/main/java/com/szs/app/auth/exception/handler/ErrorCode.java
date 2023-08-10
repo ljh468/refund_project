@@ -4,7 +4,7 @@ public enum ErrorCode implements AbstractErrorCode {
 
   E0000("E0000", "user not found"),
 
-  E0001("E0001", "annualIncome data already exist"),
+  E0001("E0001", "scrap annualIncome data already exists"),
 
   E0002("E0002", "bad credentials"),
 
