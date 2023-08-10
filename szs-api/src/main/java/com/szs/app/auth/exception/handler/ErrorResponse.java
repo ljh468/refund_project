@@ -1,2 +1,14 @@
-package com.szs.app.auth.exception.handler;public class ErrorResponse {
+package com.szs.app.auth.exception.handler;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class ErrorResponse {
+
+  private String code;
+
+  private String message;
+
 }

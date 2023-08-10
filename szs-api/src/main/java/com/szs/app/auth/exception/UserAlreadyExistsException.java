@@ -1,16 +1,14 @@
 package com.szs.app.auth.exception;
 
-import lombok.AllArgsConstructor;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
 
-import java.text.MessageFormat;
+public class UserAlreadyExistsException extends AbstractException {
 
-@AllArgsConstructor
-public class UserAlreadyExistsException extends RuntimeException {
+  public UserAlreadyExistsException(String code, String message) {
+    super(code, message);
+  }
 
-  private final String userId;
-
-  @Override
-  public String getMessage() {
-    return MessageFormat.format("already exists with userId ''{0}''", userId);
+  public UserAlreadyExistsException(AbstractErrorCode errorCode, String message) {
+    super(errorCode, message);
   }
 }

@@ -1,16 +1,14 @@
 package com.szs.app.auth.exception;
 
-import lombok.AllArgsConstructor;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
 
-import java.text.MessageFormat;
+public class UserNotFoundException extends AbstractException {
 
-@AllArgsConstructor
-public class UserNotFoundException extends RuntimeException {
+  public UserNotFoundException(String code, String message) {
+    super(code, message);
+  }
 
-  private final String userId;
-
-  @Override
-  public String getMessage() {
-    return MessageFormat.format("not found with userId ''{0}''", userId);
+  public UserNotFoundException(AbstractErrorCode errorCode, String message) {
+    super(errorCode, message);
   }
 }
