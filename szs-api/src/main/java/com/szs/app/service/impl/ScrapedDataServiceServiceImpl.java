@@ -1,5 +1,6 @@
 package com.szs.app.service.impl;
 
+import com.szs.app.auth.exception.AnnualIncomeDataAlreadyExistsException;
 import com.szs.app.domain.entity.*;
 import com.szs.app.domain.type.PaymentType;
 import com.szs.app.global.scrap.response.ApiResponse;
@@ -35,26 +36,44 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
 
   @Override
   @Transactional
-  public void saveScrappedData(ApiResponse scrap, User user) {
+  public AnnualIncome saveScrappedData(ApiResponse scrap, User user) {
     DataResponse data = scrap.getData();
     if (nonNull(data)) {
-      //FIXME AnnualIncome(연간소득)데이터가 존재하는지 확인하는 로직 필요
+      
+      // 동일년도의 연말정산 소득데이터가 존재하는지 확인
+      String latestYear = String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear());
+      checkExistsIncomeDataForScrapedYear(user.getId(), latestYear);
+
+      // 연말정산 스크랩 히스토리 저장
       YearEndTaxScrapHistory scrapHistory = saveYearEndYaxScrapHistory(data, user);
+
+      // 연간소득 데이터 초기저장 -> id값 생성
       AnnualIncome newAnnualIncome = annualIncomeRepository.save(generateAnnualIncome(user, scrapHistory, data));
+
+      // 급여 소득 데이터 저장 -> 총 소득을 계산해서 연간소득 데이터에 반영
       AtomicReference<Long> totalIncome = saveIncomeSalary(data, newAnnualIncome);
       newAnnualIncome.updateIncomeTotal(totalIncome.get());
+
+      // 소득공제 데이터 저장
       saveDeduction(data, newAnnualIncome);
-      saveAnnualIncome(newAnnualIncome);
+
+      // 연간소득 데이터 최종저장 -> 총 소득 반영
+      return saveAnnualIncome(newAnnualIncome);
+    }
+    return null;
+  }
+
+  private void checkExistsIncomeDataForScrapedYear(String userId, String latestYear) {
+    AnnualIncome annualIncome = annualIncomeService.findByUserIdAndIncomeYearNotDeleted(userId, latestYear);
+    if(nonNull(annualIncome) && nonNull(annualIncome.getIncomeTotal())) {
+      throw new AnnualIncomeDataAlreadyExistsException(userId, latestYear);
     }
   }
 
   private AnnualIncome generateAnnualIncome(User user, YearEndTaxScrapHistory scrapHistory, DataResponse data) {
-    LocalDateTime now = LocalDateTime.now();
     AnnualIncome annualIncome = AnnualIncome.builder()
                                             .incomeYear(String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear()))
                                             .calculatedTax(data.getJsonList().getCalculatedTax())
-                                            .createdAt(now)
-                                            .updatedAt(now)
                                             .isDeleted(false)
                                             .build();
     annualIncome.addUser(user);
@@ -79,8 +98,8 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
   }
 
   @Transactional
-  public void saveAnnualIncome(AnnualIncome annualIncome) {
-    annualIncomeService.save(annualIncome);
+  public AnnualIncome saveAnnualIncome(AnnualIncome annualIncome) {
+    return annualIncomeService.save(annualIncome);
   }
 
   @Transactional
@@ -89,7 +108,9 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
     List<IncomeSalary> incomeSalaries = new ArrayList<>();
     data.getJsonList().getIncomeSalaries().forEach(
         response -> {
-          totalIncome.updateAndGet(total -> total + response.getPaymentTotal());
+          if (nonNull(response.getPaymentTotal())) {
+            totalIncome.updateAndGet(total -> total + response.getPaymentTotal());
+          }
           IncomeSalary incomeSalary = IncomeSalary.builder()
                                                   .incomeDetail(response.getIncomeDetail())
                                                   .incomeType(response.getIncomeType())
@@ -119,7 +140,8 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
                                          .build();
           deduction.addAnnualIncome(annualIncome);
           deductions.add(deduction);
-        });
+        }
+    );
     deductionService.saveAll(deductions);
   }
 }
