@@ -27,7 +27,7 @@ public class Deduction {
   @Enumerated(EnumType.STRING)
   private PaymentType paymentType;
 
-  private Double paymentAmount;
+  private Long paymentAmount;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "annualIncomeId")
@@ -37,7 +37,7 @@ public class Deduction {
   }
 
   @Builder
-  public Deduction(PaymentType paymentType, Double paymentAmount) {
+  public Deduction(PaymentType paymentType, Long paymentAmount) {
     this.paymentType = paymentType;
     this.paymentAmount = paymentAmount;
   }

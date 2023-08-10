@@ -4,6 +4,9 @@ import com.szs.app.auth.AuthService;
 import com.szs.app.auth.exception.BedCredentialsException;
 import com.szs.app.auth.exception.RegistrationNotAllowedException;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
+import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
+import com.szs.app.auth.exception.handler.ErrorCode;
 import com.szs.app.auth.jwt.JwtFilter;
 import com.szs.app.auth.jwt.TokenProvider;
 import com.szs.app.domain.entity.User;
@@ -19,7 +22,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.CredentialException;
+
+import static com.szs.app.auth.exception.handler.ErrorCode.E0002;
 
 @Slf4j
 @RestController
@@ -63,7 +67,7 @@ public class UserController {
       throw registrationNotAllowedException;
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw new BedCredentialsException("bad credentials");
+      throw new BedCredentialsException(E0002, "bad credentials");
     }
   }
 
@@ -74,12 +78,12 @@ public class UserController {
       HttpHeaders headers = createHeadersWithToken(newToken);
       return new ResponseEntity<>(new TokenResponse(newToken), headers, HttpStatus.OK);
 
-    } catch (UserAlreadyExistsException userAlreadyExistsException) {
-      log.debug("user already exists with userId");
-      throw userAlreadyExistsException;
+    } catch (UserNotFoundException userNotFoundException) {
+      log.debug("user not found");
+      throw userNotFoundException;
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw new BedCredentialsException("bad credentials");
+      throw new BedCredentialsException(E0002, "bad credentials");
     }
   }
 
@@ -92,7 +96,7 @@ public class UserController {
 
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
-      throw new BedCredentialsException(runtimeException.getMessage(), runtimeException.getCause());
+      throw new BedCredentialsException(E0002, "bad credentials");
     }
   }
 

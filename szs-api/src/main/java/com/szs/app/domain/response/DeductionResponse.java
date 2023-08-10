@@ -17,7 +17,7 @@ public class DeductionResponse {
 
   private String paymentType;
 
-  private Double paymentAmount;
+  private Long paymentAmount;
 
   public static DeductionResponse from(Deduction deduction) {
     if (isNull(deduction)) {

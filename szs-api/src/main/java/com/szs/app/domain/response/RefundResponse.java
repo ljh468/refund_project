@@ -1,5 +1,6 @@
 package com.szs.app.domain.response;
 
+import com.szs.app.domain.entity.AnnualIncome;
 import com.szs.app.domain.entity.Refund;
 import lombok.*;
 
@@ -16,17 +17,15 @@ public class RefundResponse {
 
   private Long id;
 
-  private Long determinedTax;
+  private String userName;
 
-  private Long retirePensionCredit;
+  private String incomeYear;
+
+  private double determinedTax;
+
+  private double retirePensionCredit;
 
   private boolean isCompleted;
-
-  private boolean isDeleted;
-
-  private LocalDateTime createdAt;
-
-  private LocalDateTime updatedAt;
 
   public static RefundResponse from(Refund refund) {
     if (isNull(refund)) {
@@ -35,11 +34,22 @@ public class RefundResponse {
     return RefundResponse.builder()
                          .id(refund.getId())
                          .determinedTax(refund.getDeterminedTax())
-                         .retirePensionCredit(refund.getRetirePensionCredit())
+                         .retirePensionCredit(refund.getRetireTaxCredit())
                          .isCompleted(refund.isCompleted())
-                         .isDeleted(refund.isDeleted())
-                         .createdAt(refund.getCreatedAt())
-                         .updatedAt(refund.getUpdatedAt())
+                         .build();
+  }
+
+  public static RefundResponse from(AnnualIncome annualIncome) {
+    if (isNull(annualIncome)) {
+      return null;
+    }
+    return RefundResponse.builder()
+                         .id(annualIncome.getRefund().getId())
+                         .userName(annualIncome.getUser().getName())
+                         .incomeYear(annualIncome.getIncomeYear())
+                         .determinedTax(annualIncome.getRefund().getDeterminedTax())
+                         .retirePensionCredit(annualIncome.getRefund().getRetireTaxCredit())
+                         .isCompleted(annualIncome.getRefund().isCompleted())
                          .build();
   }
 

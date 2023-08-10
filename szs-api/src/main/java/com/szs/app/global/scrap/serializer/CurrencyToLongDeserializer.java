@@ -12,7 +12,7 @@ public class CurrencyToLongDeserializer extends JsonDeserializer<Long> {
   public Long deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     String value = parser.getText();
     try {
-      return Long.valueOf(value.replaceAll(",", ""));
+      return Double.valueOf(value.replaceAll(",", "")).longValue();
     } catch (NumberFormatException e) {
       throw new IOException("Failed to parse Long value: " + value, e);
     }

@@ -2,6 +2,7 @@ package com.szs.app.auth;
 
 import com.szs.app.auth.exception.RegistrationNotAllowedException;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
+import com.szs.app.auth.exception.UserNotFoundException;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
 import com.szs.app.domain.type.RoleType;
@@ -13,17 +14,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.szs.app.auth.exception.handler.ErrorCode.E0004;
+import static com.szs.app.auth.exception.handler.ErrorCode.E0005;
 
 @Slf4j
 @Service
@@ -42,7 +43,7 @@ public class AuthService implements UserDetailsService {
     return userRepository.findOneWithAuthoritiesById(userId)
                          .filter(User::isActivated)
                          .map(this::getUserDetails)
-                         .orElseThrow(() -> new UsernameNotFoundException("userId didn't match"));
+                         .orElseThrow(() -> new UserNotFoundException(E0005, "user not found"));
   }
 
   private org.springframework.security.core.userdetails.User getUserDetails(User user) {
@@ -73,13 +74,13 @@ public class AuthService implements UserDetailsService {
                                      .updatedAt(now)
                                      .build());
     } else {
-      throw new UserAlreadyExistsException(userId);
+      throw new UserAlreadyExistsException(E0005, "user already exists with userId");
     }
   }
 
   private void verifyAllowableUser(String name, String regFront, String regBack) {
     if (!allowableUserService.isExistsByNameAndRegNo(name, regFront, regBack)) {
-      throw new RegistrationNotAllowedException("username or registration number not allowed");
+      throw new RegistrationNotAllowedException(E0004, "username or registration number not allowed");
     }
   }
 

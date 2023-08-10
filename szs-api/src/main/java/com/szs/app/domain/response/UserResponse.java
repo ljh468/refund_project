@@ -29,10 +29,6 @@ public class UserResponse {
 
   private boolean isDeleted;
 
-  private LocalDateTime createdAt;
-
-  private LocalDateTime updatedAt;
-
   private List<AnnualIncomeResponse> annualIncomes = new ArrayList<>();
 
   private Set<AuthorityResponse> authorities = new HashSet<>();
@@ -47,8 +43,6 @@ public class UserResponse {
                        .birth(user.getRegNoFront())
                        .isActivated(user.isActivated())
                        .isDeleted(user.isDeleted())
-                       .createdAt(user.getCreatedAt())
-                       .updatedAt(user.getUpdatedAt())
                        .annualIncomes(user.getAnnualIncomes().stream()
                                      .map(AnnualIncomeResponse::from).collect(Collectors.toList()))
                        .authorities(user.getAuthorities().stream()
