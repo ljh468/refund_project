@@ -3,17 +3,14 @@ package com.szs.app.auth;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
-import com.szs.app.repository.AllowableUserRepository;
 import com.szs.app.repository.UserRepository;
 import com.szs.app.service.AllowableUserService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
