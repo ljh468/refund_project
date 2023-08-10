@@ -1,18 +1,14 @@
 package com.szs.app.auth.exception;
 
-import lombok.AllArgsConstructor;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
 
-import java.text.MessageFormat;
+public class AnnualIncomeDataAlreadyExistsException extends AbstractException {
 
-@AllArgsConstructor
-public class AnnualIncomeDataAlreadyExistsException extends RuntimeException {
+  public AnnualIncomeDataAlreadyExistsException(String code, String message) {
+    super(code, message);
+  }
 
-  private final String userId;
-
-  private final String incomeYear;
-
-  @Override
-  public String getMessage() {
-    return MessageFormat.format("Income data for the year ''{0}'' of ''{1}'' already exists", incomeYear, userId);
+  public AnnualIncomeDataAlreadyExistsException(AbstractErrorCode errorCode, String message) {
+    super(errorCode, message);
   }
 }

@@ -1,11 +1,14 @@
 package com.szs.app.auth.exception;
 
-import lombok.AllArgsConstructor;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
 
-@AllArgsConstructor
-public class RegistrationNotAllowedException extends RuntimeException {
+public class RegistrationNotAllowedException extends AbstractException {
 
-  public RegistrationNotAllowedException(String message) {
-    super(message);
+  public RegistrationNotAllowedException(String code, String message) {
+    super(code, message);
+  }
+
+  public RegistrationNotAllowedException(AbstractErrorCode errorCode, String message) {
+    super(errorCode, message);
   }
 }

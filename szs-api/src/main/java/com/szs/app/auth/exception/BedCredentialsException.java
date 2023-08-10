@@ -1,15 +1,14 @@
 package com.szs.app.auth.exception;
 
-import lombok.AllArgsConstructor;
+import com.szs.app.auth.exception.handler.AbstractErrorCode;
 
-@AllArgsConstructor
-public class BedCredentialsException extends RuntimeException {
+public class BedCredentialsException extends AbstractException {
 
-  public BedCredentialsException(String message) {
-    super(message);
+  public BedCredentialsException(String code, String message) {
+    super(code, message);
   }
 
-  public BedCredentialsException(String message, Throwable cause) {
-    super(message, cause);
+  public BedCredentialsException(AbstractErrorCode errorCode, String message) {
+    super(errorCode, message);
   }
 }
