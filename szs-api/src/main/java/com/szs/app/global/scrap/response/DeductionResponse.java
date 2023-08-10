@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.szs.app.global.scrap.serializer.CurrencyToDoubleDeserializer;
+import com.szs.app.global.scrap.serializer.CurrencyToLongDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,8 +24,8 @@ public class DeductionResponse {
   private String paymentType;
 
   @JsonAlias({"금액", "총납임금액"})
-  @JsonDeserialize(using = CurrencyToDoubleDeserializer.class)
-  private Double paymentAmount;
+  @JsonDeserialize(using = CurrencyToLongDeserializer.class)
+  private Long paymentAmount;
 
   @Override
   public String toString() {

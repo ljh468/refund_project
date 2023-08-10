@@ -1,6 +1,7 @@
 package com.szs.app.auth;
 
 import com.szs.app.auth.exception.UserAlreadyExistsException;
+import com.szs.app.auth.exception.UserNotFoundException;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
 import com.szs.app.repository.UserRepository;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -68,7 +68,7 @@ class AuthServiceTest {
   }
 
   @Test
-  public void 활성화되지_않은_유저로_loadUserByUsername가_호출될_때_UsernameNotFoundException이_발생하는지_확인한다() {
+  public void 활성화되지_않은_유저로_loadUserByUsername가_호출될_때_UserNotFoundException이_발생하는지_확인한다() {
     User user = User.builder()
                     .id(mockUserId)
                     .password(mockPassword)
@@ -77,13 +77,13 @@ class AuthServiceTest {
 
     when(userRepository.findOneWithAuthoritiesById(mockUserId)).thenReturn(Optional.of(user));
 
-    assertThrows(UsernameNotFoundException.class, () -> authService.loadUserByUsername(mockUserId));
+    assertThrows(UserNotFoundException.class, () -> authService.loadUserByUsername(mockUserId));
   }
 
   @Test
-  public void 권한이_없는_유저로_loadUserByUsername가_호출될_때_UsernameNotFoundException이_발생하는지_확인한다() {
+  public void 권한이_없는_유저로_loadUserByUsername가_호출될_때_UserNotFoundException이_발생하는지_확인한다() {
     when(userRepository.findOneWithAuthoritiesById(mockUserId)).thenReturn(Optional.empty());
-    assertThrows(UsernameNotFoundException.class, () -> authService.loadUserByUsername(mockUserId));
+    assertThrows(UserNotFoundException.class, () -> authService.loadUserByUsername(mockUserId));
   }
 
   @Test

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.szs.app.auth.exception.handler.ErrorCode.E0005;
 import static java.util.Objects.isNull;
 
 @Slf4j
@@ -31,6 +32,6 @@ public class UserServiceImpl implements UserService {
     }
     userId.set(authentication.getName());
     return userRepository.findOneWithAuthoritiesById(userId.get())
-                         .orElseThrow(() -> new UserNotFoundException("User not found"));
+                         .orElseThrow(() -> new UserNotFoundException(E0005, "user not found"));
   }
 }
