@@ -16,7 +16,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "AnnualIncome")
-@Builder
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -62,6 +61,16 @@ public class AnnualIncome {
   protected AnnualIncome() {
   }
 
+  @Builder
+  public AnnualIncome(String incomeYear, Long calculatedTax, boolean isDeleted) {
+    this.incomeYear = incomeYear;
+    this.calculatedTax = calculatedTax;
+    this.isDeleted = isDeleted;
+    LocalDateTime now = LocalDateTime.now();
+    this.createdAt = now;
+    this.updatedAt = now;
+  }
+
   public void addUser(User user){
     this.user = user;
     user.getAnnualIncomes().add(this);
@@ -69,7 +78,7 @@ public class AnnualIncome {
 
   public void addYearEndTaxScrapHistory(YearEndTaxScrapHistory scrapHistory){
     this.yearEndTaxScrapHistory = scrapHistory;
-    scrapHistory.addAnnualIncome(this);
+    // scrapHistory.addAnnualIncome(this);
   }
 
   @Override

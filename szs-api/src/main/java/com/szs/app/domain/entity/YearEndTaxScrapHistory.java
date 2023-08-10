@@ -11,7 +11,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "YearEndTaxScrapHistory")
-@Builder
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -49,6 +48,19 @@ public class YearEndTaxScrapHistory {
   protected YearEndTaxScrapHistory() {
   }
 
+  @Builder
+  public YearEndTaxScrapHistory(Long id, String appVer, String errMsg, String svcCd, String company, String hostNm, LocalDateTime workerResDt, LocalDateTime workerReqDt, LocalDateTime createdAt) {
+    this.id = id;
+    this.appVer = appVer;
+    this.errMsg = errMsg;
+    this.svcCd = svcCd;
+    this.company = company;
+    this.hostNm = hostNm;
+    this.workerResDt = workerResDt;
+    this.workerReqDt = workerReqDt;
+    this.createdAt = createdAt;
+  }
+
   public void addUser(User user) {
     this.user = user;
   }
@@ -56,6 +68,7 @@ public class YearEndTaxScrapHistory {
   public void addAnnualIncome(AnnualIncome annualIncome) {
     this.annualIncome = annualIncome;
   }
+
   @Override
   public String toString(){
     return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
