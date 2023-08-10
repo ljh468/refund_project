@@ -1,6 +1,6 @@
 package com.szs.app.service.impl;
 
-import com.szs.app.auth.exception.AnnualIncomeDataAlreadyExistsException;
+import com.szs.app.auth.exception.AnnualIncomeDataScrapedException;
 import com.szs.app.auth.exception.handler.ErrorCode;
 import com.szs.app.domain.entity.*;
 import com.szs.app.domain.type.PaymentType;
@@ -8,7 +8,6 @@ import com.szs.app.global.scrap.response.ApiResponse;
 import com.szs.app.global.scrap.response.DataResponse;
 import com.szs.app.repository.AnnualIncomeRepository;
 import com.szs.app.service.*;
-import com.szs.util.TypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.szs.util.TypeConverter.doubleToLong;
+import static com.szs.app.auth.exception.handler.ErrorCode.E0001;
 import static java.util.Objects.nonNull;
 
 @Slf4j
@@ -46,28 +45,21 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
       // 동일년도의 연말정산 소득데이터가 존재하는지 확인
       String scrapYear = String.valueOf(data.getJsonList().getIncomeSalaries().get(0).getPaymentDate().getYear());
       checkExistsIncomeDataForScrapedYear(user.getId(), scrapYear);
-      System.out.println("scrapYear = " + scrapYear);
 
       // 연말정산 스크랩 히스토리 저장
       YearEndTaxScrapHistory scrapHistory = saveYearEndYaxScrapHistory(data, user);
-      System.out.println("scrapHistory = " + scrapHistory);
 
       // 연간소득 데이터 초기저장 -> id값 생성
       AnnualIncome newAnnualIncome = annualIncomeRepository.save(generateAnnualIncome(user, scrapHistory, data));
-      System.out.println("newAnnualIncome = " + newAnnualIncome);
 
       // 급여 소득 데이터 저장 -> 총 소득을 계산해서 연간소득 데이터에 반영
       AtomicReference<Long> totalIncome = saveIncomeSalary(data, newAnnualIncome);
       newAnnualIncome.updateIncomeTotal(totalIncome.get());
-      System.out.println("totalIncome = " + totalIncome);
-      System.out.println("newAnnualIncome = " + newAnnualIncome);
 
       // 소득공제 데이터 저장
       saveDeduction(data, newAnnualIncome);
-      System.out.println("saveDeduction");
 
       // 연간소득 데이터 최종저장 -> 총 소득 반영
-      System.out.println("연간소득 데이터 최종저장");
       return saveAnnualIncome(newAnnualIncome);
     }
     return null;
@@ -76,7 +68,7 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
   private void checkExistsIncomeDataForScrapedYear(String userId, String scrapYear) {
     AnnualIncome annualIncome = annualIncomeService.findByUserIdAndIncomeYearNotDeleted(userId, scrapYear);
     if (nonNull(annualIncome) && nonNull(annualIncome.getIncomeTotal())) {
-      throw new AnnualIncomeDataAlreadyExistsException(ErrorCode.E0001, "annualIncome data already exist");
+      throw new AnnualIncomeDataScrapedException(E0001, "annualIncome data for scraping already exists");
     }
   }
 

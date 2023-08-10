@@ -1,7 +1,7 @@
 package com.szs.app.controller;
 
+import com.szs.app.auth.exception.AnnualIncomeDataScrapedException;
 import com.szs.app.auth.exception.FailedScrapException;
-import com.szs.app.auth.exception.RegNumberMismatchException;
 import com.szs.app.auth.exception.UserNotFoundException;
 import com.szs.app.auth.exception.handler.ErrorCode;
 import com.szs.app.domain.response.AnnualIncomeResponse;
@@ -50,7 +50,7 @@ public class RefundController {
     try {
       User currentUser = userService.getCurrentUser();
       ApiResponse scrap = yearEndTaxScrapHistoryService.scrap(input.getName(), input.getRegNo());
-      if (isNull(scrap.getErrors())) {
+      if (isNull(scrap.getErrors()) || scrap.getErrors().isEmpty()) {
         AnnualIncome annualIncome = scrapedDataService.saveScrappedData(scrap, currentUser);
         return ResponseEntity.ok(AnnualIncomeResponse.from(annualIncome));
       } else {
@@ -63,6 +63,9 @@ public class RefundController {
     } catch (BadCredentialsException badCredentialsException) {
       log.debug("bad credentials");
       throw badCredentialsException;
+    } catch (AnnualIncomeDataScrapedException annualIncomeDataScrapedException) {
+      log.debug("annualIncome data already exist");
+      throw annualIncomeDataScrapedException;
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
       throw runtimeException;

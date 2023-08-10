@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
-  @ExceptionHandler(AnnualIncomeDataAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleAnnualIncomeDataAlreadyExistsException(AnnualIncomeDataAlreadyExistsException exception) {
+  @ExceptionHandler(AnnualIncomeDataScrapedException.class)
+  public ResponseEntity<ErrorResponse> handleAnnualIncomeDataAlreadyExistsException(AnnualIncomeDataScrapedException exception) {
     ErrorResponse errorResponse = new ErrorResponse(exception.getCode(), exception.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
