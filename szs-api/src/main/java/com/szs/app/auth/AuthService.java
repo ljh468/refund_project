@@ -1,8 +1,8 @@
 package com.szs.app.auth;
 
-import com.szs.app.auth.exception.RegistrationNotAllowedException;
-import com.szs.app.auth.exception.UserAlreadyExistsException;
-import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.exception.RegistrationNotAllowedException;
+import com.szs.app.exception.UserAlreadyExistsException;
+import com.szs.app.exception.UserNotFoundException;
 import com.szs.app.global.encoder.CustomPasswordEncoder;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
@@ -23,8 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.szs.app.auth.exception.handler.ErrorCode.E0004;
-import static com.szs.app.auth.exception.handler.ErrorCode.E0005;
+import static com.szs.app.exception.handler.ErrorCode.E0004;
+import static com.szs.app.exception.handler.ErrorCode.E0005;
 
 @Slf4j
 @Service

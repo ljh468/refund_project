@@ -1,11 +1,11 @@
-package com.szs.app.global.scrap.response;
+package com.szs.app.scrap.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.szs.app.global.scrap.serializer.CurrencyToLongDeserializer;
+import com.szs.app.scrap.serializer.CurrencyToLongDeserializer;
 import lombok.*;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.szs.app.global.scrap.response;
+package com.szs.app.scrap.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

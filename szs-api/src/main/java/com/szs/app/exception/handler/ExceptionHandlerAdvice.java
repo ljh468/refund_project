@@ -1,9 +1,8 @@
-package com.szs.app.auth.exception.handler;
+package com.szs.app.exception.handler;
 
-import com.szs.app.auth.exception.*;
+import com.szs.app.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.szs.app.auth.exception.BedCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

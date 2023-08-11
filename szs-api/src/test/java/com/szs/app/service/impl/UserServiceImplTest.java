@@ -1,10 +1,9 @@
 package com.szs.app.service.impl;
 
-import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.exception.UserNotFoundException;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
 import com.szs.app.repository.UserRepository;
-import com.szs.app.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,15 +27,15 @@ class UserServiceImplTest {
   @Mock
   private UserRepository userRepository;
 
-  private static final String mockUserId = "mockUserId";
+  String mockUserId = "szsUserId";
 
-  private static final String mockPassword = "password123^^";
+  String mockPassword = "szsPassword";
 
-  private static final String mockName = "mockName";
+  String mockName = "szsName";
 
-  private static final Authority mockAuthority = Authority.builder().authorityName("ROLE_USER").build();
+  private final Authority mockAuthority = Authority.builder().authorityName("ROLE_USER").build();
 
-  private static User mockUser = User.builder()
+  private User mockUser = User.builder()
                                      .id(mockUserId)
                                      .password(mockPassword)
                                      .name(mockName)

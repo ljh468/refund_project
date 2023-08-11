@@ -1,7 +1,7 @@
 package com.szs.app.auth;
 
-import com.szs.app.auth.exception.UserAlreadyExistsException;
-import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.exception.UserAlreadyExistsException;
+import com.szs.app.exception.UserNotFoundException;
 import com.szs.app.global.encoder.CustomPasswordEncoder;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
@@ -34,13 +34,13 @@ class AuthServiceTest {
   @Mock
   private CustomPasswordEncoder passwordEncoder;
 
-  private static final String mockUserId = "mockUserId";
+  String mockUserId = "szsUserId";
 
-  private static final String mockPassword = "password123^^";
+  String mockPassword = "szsPassword";
 
-  private static final String mockName = "mockName";
+  String mockName = "szsName";
 
-  private static final Authority mockAuthority = Authority.builder().authorityName("ROLE_USER").build();
+  private final Authority mockAuthority = Authority.builder().authorityName("ROLE_USER").build();
 
   @BeforeEach
   void setUp() {

@@ -1,7 +1,7 @@
 package com.szs.app.service;
 
 import com.szs.app.domain.entity.YearEndTaxScrapHistory;
-import com.szs.app.global.scrap.response.ApiResponseData;
+import com.szs.app.scrap.response.ApiResponseData;
 
 public interface YearEndTaxScrapHistoryService {
 

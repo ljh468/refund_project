@@ -1,4 +1,4 @@
-package com.szs.app.global.scrap.serializer;
+package com.szs.app.scrap.serializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
