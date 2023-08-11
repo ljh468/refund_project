@@ -1,5 +1,8 @@
 # 연말정산 환급금 조회 애플리케이션 (Refund)
 
+- h2 데이터베이스 실행
+- h2 웹 콘솔 : localhost:9900/h2-console
+  - JDBC URL : jdbc:h2:tcp://localhost/~/szs
 - 로컬 서버 실행 후 swagger UI 접속
 - swagger UI 주소 : http://localhost:9900/swagger-ui/index.html
 
@@ -72,13 +75,28 @@
 # 도메인 디자인
 
   * 유저 (Users)
+    - 사용자 정보를 담는 엔터티, 회원가입 된 사용자 정보와 권한을 관리
+  
   * 권한 (Authority)
+    - 권한 정보를 관리
+  
   * 가입 허용 유저 (AllowableUser)
+    - 허용된 유저 정보를 관리
+  
   * 연말정산 스크랩 내역 (YearEndTaxScrapHistory)
+    - 연말정산 정보를 스크랩한 내역을 관리
+  
   * 연간 총 소득 (AnnualIncome)
+    - 유저의 연간 총 소득 정보를 관리
+   
   * 소득 급여 (IncomeSalary)
+    - 유저의 소득 급여 정보를 관리
+  
   * 소득 공제 (Deduction)
+    - 유저의 소득 공제 정보를 관리
+  
   * 환급 (Refund)
+    - 유저의 환급 정보를 관리
 
 <img width="1517" alt="szsEntity" src="https://github.com/ljh468/refund_project/assets/64997253/71c28f91-e806-4c7d-9bc9-9edc54230738">
 
