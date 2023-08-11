@@ -1,6 +1,6 @@
 package com.szs.app.service.impl;
 
-import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.exception.UserNotFoundException;
 import com.szs.app.domain.entity.User;
 import com.szs.app.repository.UserRepository;
 import com.szs.app.service.UserService;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.szs.app.auth.exception.handler.ErrorCode.E0005;
+import static com.szs.app.exception.handler.ErrorCode.E0005;
 import static java.util.Objects.isNull;
 
 @Slf4j

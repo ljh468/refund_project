@@ -1,9 +1,7 @@
 package com.szs.app.global.listener;
 
-import com.szs.app.domain.entity.AllowableUser;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.repository.AuthorityRepository;
-import com.szs.app.service.AllowableUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

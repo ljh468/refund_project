@@ -1,10 +1,10 @@
 package com.szs.app.controller;
 
 import com.szs.app.auth.AuthService;
-import com.szs.app.auth.exception.BedCredentialsException;
-import com.szs.app.auth.exception.RegistrationNotAllowedException;
-import com.szs.app.auth.exception.UserAlreadyExistsException;
-import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.exception.BedCredentialsException;
+import com.szs.app.exception.RegistrationNotAllowedException;
+import com.szs.app.exception.UserAlreadyExistsException;
+import com.szs.app.exception.UserNotFoundException;
 
 import com.szs.app.auth.jwt.JwtFilter;
 import com.szs.app.auth.jwt.TokenProvider;
@@ -16,8 +16,6 @@ import com.szs.app.domain.response.TokenResponse;
 import com.szs.app.domain.response.UserResponse;
 import com.szs.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.szs.app.auth.exception.handler.ErrorCode.E0002;
+import static com.szs.app.exception.handler.ErrorCode.E0002;
 
 @Slf4j
 @RestController

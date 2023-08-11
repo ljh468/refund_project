@@ -1,6 +1,6 @@
-package com.szs.app.auth.exception;
+package com.szs.app.exception;
 
-import com.szs.app.auth.exception.handler.AbstractErrorCode;
+import com.szs.app.exception.handler.AbstractErrorCode;
 
 public class AnnualIncomeDataScrapedException extends AbstractException {
 

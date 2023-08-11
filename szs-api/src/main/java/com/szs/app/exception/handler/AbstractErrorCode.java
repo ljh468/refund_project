@@ -1,4 +1,4 @@
-package com.szs.app.auth.exception.handler;
+package com.szs.app.exception.handler;
 
 public interface AbstractErrorCode {
 

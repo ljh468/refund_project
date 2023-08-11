@@ -1,4 +1,4 @@
-package com.szs.app.global.scrap.szs;
+package com.szs.app.scrap.szs;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -24,7 +24,7 @@ public class SzsRestApiHelper {
     return request(HttpMethodType.POST, YEAR_END_TAX_SCRAP, mapToJson(params));
   }
 
-  //FIXME : 임시 로직
+  //FIXME : 외부 api 연동 모듈 구현 예정
   public String request(HttpMethodType httpMethodType, final String apiPath, final String params) {
     OkHttpClient client = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
                                                     .writeTimeout(30, TimeUnit.SECONDS)

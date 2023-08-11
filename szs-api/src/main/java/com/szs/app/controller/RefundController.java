@@ -1,19 +1,17 @@
 package com.szs.app.controller;
 
-import com.szs.app.auth.exception.AnnualIncomeDataScrapedException;
-import com.szs.app.auth.exception.FailedScrapException;
-import com.szs.app.auth.exception.UserNotFoundException;
-import com.szs.app.auth.exception.handler.ErrorCode;
+import com.szs.app.exception.AnnualIncomeDataScrapedException;
+import com.szs.app.exception.FailedScrapException;
+import com.szs.app.exception.UserNotFoundException;
+import com.szs.app.exception.handler.ErrorCode;
 import com.szs.app.global.encoder.CustomPasswordEncoder;
 import com.szs.app.domain.response.AnnualIncomeResponse;
 import com.szs.app.domain.entity.AnnualIncome;
 import com.szs.app.domain.entity.User;
 import com.szs.app.domain.response.RefundResponse;
-import com.szs.app.global.scrap.response.ApiResponseData;
+import com.szs.app.scrap.response.ApiResponseData;
 import com.szs.app.service.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

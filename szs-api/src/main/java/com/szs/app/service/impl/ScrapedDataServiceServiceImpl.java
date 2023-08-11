@@ -1,10 +1,10 @@
 package com.szs.app.service.impl;
 
-import com.szs.app.auth.exception.AnnualIncomeDataScrapedException;
+import com.szs.app.exception.AnnualIncomeDataScrapedException;
 import com.szs.app.domain.entity.*;
 import com.szs.app.domain.type.PaymentType;
-import com.szs.app.global.scrap.response.ApiResponseData;
-import com.szs.app.global.scrap.response.DataResponse;
+import com.szs.app.scrap.response.ApiResponseData;
+import com.szs.app.scrap.response.DataResponse;
 import com.szs.app.repository.AnnualIncomeRepository;
 import com.szs.app.service.*;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.szs.app.auth.exception.handler.ErrorCode.E0001;
+import static com.szs.app.exception.handler.ErrorCode.E0001;
 import static java.util.Objects.nonNull;
 
 @Slf4j

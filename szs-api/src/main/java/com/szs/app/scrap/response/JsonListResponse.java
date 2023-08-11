@@ -1,8 +1,8 @@
-package com.szs.app.global.scrap.response;
+package com.szs.app.scrap.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.szs.app.global.scrap.serializer.CurrencyToLongDeserializer;
+import com.szs.app.scrap.serializer.CurrencyToLongDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

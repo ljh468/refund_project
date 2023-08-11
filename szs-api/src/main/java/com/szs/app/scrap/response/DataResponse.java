@@ -1,4 +1,4 @@
-package com.szs.app.global.scrap.response;
+package com.szs.app.scrap.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
