@@ -1,10 +1,9 @@
 package com.szs.app.service.impl;
 
 import com.szs.app.auth.exception.AnnualIncomeDataScrapedException;
-import com.szs.app.auth.exception.handler.ErrorCode;
 import com.szs.app.domain.entity.*;
 import com.szs.app.domain.type.PaymentType;
-import com.szs.app.global.scrap.response.ApiResponse;
+import com.szs.app.global.scrap.response.ApiResponseData;
 import com.szs.app.global.scrap.response.DataResponse;
 import com.szs.app.repository.AnnualIncomeRepository;
 import com.szs.app.service.*;
@@ -38,7 +37,7 @@ public class ScrapedDataServiceServiceImpl implements ScrapedDataService {
 
   @Override
   @Transactional
-  public AnnualIncome saveScrappedData(ApiResponse scrap, User user) {
+  public AnnualIncome saveScrappedData(ApiResponseData scrap, User user) {
     DataResponse data = scrap.getData();
     if (nonNull(data)) {
 

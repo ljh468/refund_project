@@ -1,4 +1,4 @@
-package com.szs.app.auth.config;
+package com.szs.app.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

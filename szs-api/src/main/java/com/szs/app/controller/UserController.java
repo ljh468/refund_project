@@ -5,8 +5,7 @@ import com.szs.app.auth.exception.BedCredentialsException;
 import com.szs.app.auth.exception.RegistrationNotAllowedException;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
 import com.szs.app.auth.exception.UserNotFoundException;
-import com.szs.app.auth.exception.handler.AbstractErrorCode;
-import com.szs.app.auth.exception.handler.ErrorCode;
+
 import com.szs.app.auth.jwt.JwtFilter;
 import com.szs.app.auth.jwt.TokenProvider;
 import com.szs.app.domain.entity.User;
@@ -16,6 +15,9 @@ import com.szs.app.domain.response.SignUpResponse;
 import com.szs.app.domain.response.TokenResponse;
 import com.szs.app.domain.response.UserResponse;
 import com.szs.app.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -28,8 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.security.auth.login.CredentialException;
 
 import static com.szs.app.auth.exception.handler.ErrorCode.E0002;
 
@@ -48,6 +48,7 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("/signup")
+  @Operation(summary = "회원가입", description = "회원가입은 허용된 유저만 가능합니다.")
   public ResponseEntity<?> signup(@Validated @RequestBody SignUpInput input) {
     try {
       User user = authService.signUp(input.getUserId(),
@@ -72,6 +73,7 @@ public class UserController {
   }
 
   @PostMapping("/login")
+  @Operation(summary = "로그인", description = "가입한 유저는 로그인하여 JWT 토큰을 발급받습니다.")
   public ResponseEntity<?> login(@Validated @RequestBody LoginInput input) {
     try {
       String newToken = tokenProvider.createToken(addAuthentication(input.getUserId(), input.getPassword()));
@@ -84,11 +86,15 @@ public class UserController {
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
       throw new BedCredentialsException(E0002, "bad credentials");
+    } catch (Exception exception) {
+      log.warn(exception.getMessage(), exception.getCause());
+      throw new RuntimeException(exception.getMessage(), exception.getCause());
     }
   }
 
   @GetMapping("/me")
   @PreAuthorize("isAuthenticated()")
+  @Operation(summary = "내 정보 조회", description = "로그인한 유저는 자신의 정보를 조회할 수 있습니다.")
   public ResponseEntity<?> me() {
     try {
       User currentUser = userService.getCurrentUser();
@@ -97,7 +103,11 @@ public class UserController {
     } catch (RuntimeException runtimeException) {
       log.warn(runtimeException.getMessage(), runtimeException.getCause());
       throw new BedCredentialsException(E0002, "bad credentials");
+    } catch (Exception exception) {
+      log.warn(exception.getMessage(), exception.getCause());
+      throw new RuntimeException(exception.getMessage(), exception.getCause());
     }
+
   }
 
   private Authentication addAuthentication(String userId, String password) {

@@ -21,7 +21,6 @@ public class SignUpInput {
   private final String name;
 
   @NotNull
-  //FIXME 주민등록 번호 validation 추가
   private final String regNo;
 
   @Override

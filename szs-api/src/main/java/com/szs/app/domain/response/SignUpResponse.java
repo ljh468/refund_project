@@ -22,8 +22,6 @@ public class SignUpResponse {
 
   private LocalDateTime createdAt;
 
-  private LocalDateTime updatedAt;
-
   private Set<AuthorityResponse> authorities;
 
   public static SignUpResponse from(User user) {
@@ -37,7 +35,6 @@ public class SignUpResponse {
                                           .map(authority -> AuthorityResponse.builder().authorityName(authority.getAuthorityName()).build())
                                           .collect(Collectors.toSet()))
                          .createdAt(user.getCreatedAt())
-                         .updatedAt(user.getUpdatedAt())
                          .build();
   }
 }

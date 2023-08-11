@@ -3,6 +3,7 @@ package com.szs.app.auth;
 import com.szs.app.auth.exception.RegistrationNotAllowedException;
 import com.szs.app.auth.exception.UserAlreadyExistsException;
 import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.global.encoder.CustomPasswordEncoder;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
 import com.szs.app.domain.type.RoleType;
@@ -14,7 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +31,7 @@ import static com.szs.app.auth.exception.handler.ErrorCode.E0005;
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
 
-  private final PasswordEncoder passwordEncoder;
+  private final CustomPasswordEncoder passwordEncoder;
 
   private final AllowableUserService allowableUserService;
 
@@ -56,7 +56,7 @@ public class AuthService implements UserDetailsService {
   }
 
   @Transactional
-  public User signUp(String userId, String password, String name, String regNo) {
+  public User signUp(String userId, String password, String name, String regNo){
     LocalDateTime now = LocalDateTime.now();
     String[] regNoArr = regNo.split("-");
     verifyAllowableUser(name, regNoArr[0], regNoArr[1]);

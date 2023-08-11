@@ -2,6 +2,7 @@ package com.szs.app.auth;
 
 import com.szs.app.auth.exception.UserAlreadyExistsException;
 import com.szs.app.auth.exception.UserNotFoundException;
+import com.szs.app.global.encoder.CustomPasswordEncoder;
 import com.szs.app.domain.entity.Authority;
 import com.szs.app.domain.entity.User;
 import com.szs.app.repository.UserRepository;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 import java.util.Set;
@@ -32,7 +32,7 @@ class AuthServiceTest {
   AllowableUserService allowableUserService;
 
   @Mock
-  private PasswordEncoder passwordEncoder;
+  private CustomPasswordEncoder passwordEncoder;
 
   private static final String mockUserId = "mockUserId";
 
