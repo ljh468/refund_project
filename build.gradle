@@ -1,95 +1,94 @@
-	buildscript {
-		ext {
-			springBootVersion = "2.7.14"
-			mockitoVersion = "5.+"
-			gsonVersion = "2.10.1"
-			javaJwtVersion = "4.4.0"
-			commonsCodecVersion = "1.16.0"
-			lombokVersion = "1.18.28"
-			slf4jVersion = "1.7.36"
-			okhttpVersion = "4.11.0"
-			modelMapperVersion = "3.1.1"
-			jacksonDataBindVersion = "2.15.2"
-		}
-		repositories {
-			mavenCentral()
-		}
-		dependencies {
-			classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		}
-	}
+buildscript {
+    ext {
+        springBootVersion = "2.7.14"
+        commonslang = "3.12.0"
+        jjwtVersion = "0.11.5"
+        okhttpVersion = "4.11.0"
+        swaggerVersion = "3.0.0"
+        jacksonVersion = "2.15.2"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 
-	allprojects {
-		group = "com.szs"
-		version = "0.0.1"
-	}
+allprojects {
+    group = "com.szs"
+    version = "0.0.1"
+}
 
-	subprojects {
-		apply plugin: "org.springframework.boot"
-		apply plugin: "io.spring.dependency-management"
-		apply plugin: "java-library"
+subprojects {
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "java-library"
 
-		sourceCompatibility = "11"
+    sourceCompatibility = "11"
 
-		configurations {
-			compileOnly {
-				extendsFrom annotationProcessor
-			}
-		}
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
-		repositories {
-			mavenCentral()
-		}
+    repositories {
+        mavenCentral()
+    }
 
-		dependencies {
-			// lombok
-			compileOnly 'org.projectlombok:lombok'
-			annotationProcessor 'org.projectlombok:lombok'
-			testCompileOnly("org.projectlombok:lombok")
-			testAnnotationProcessor("org.projectlombok:lombok")
+    dependencies {
+        // lombok
+        compileOnly("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
+        testCompileOnly("org.projectlombok:lombok")
+        testAnnotationProcessor("org.projectlombok:lombok")
 
-			// Test
-			testImplementation ("org.springframework.boot:spring-boot-starter-test")
+        // Test
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-			// Commons
-			implementation ("org.apache.commons:commons-lang3:3.12.0")
-		}
+        // Commons
+        implementation("org.apache.commons:commons-lang3:${commonslang}")
+    }
 
-		test {
-			useJUnitPlatform()
-		}
-	}
+    test {
+        useJUnitPlatform()
+    }
+}
 
-	project(":szs-api") {
-		dependencies {
-			implementation project(":szs-common-core")
+project(":szs-api") {
+    dependencies {
+        implementation project(":szs-common-core")
 
-			// web
-			implementation("org.springframework.boot:spring-boot-starter-web")
-			implementation("org.springframework.boot:spring-boot-devtools")
-			implementation("org.springframework.boot:spring-boot-starter-validation")
-			implementation("org.springframework.boot:spring-boot-starter-security")
-			annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        // web
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-devtools")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-			// JWT
-			implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-			runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-			runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+        // JWT
+        implementation("io.jsonwebtoken:jjwt-api:${jjwtVersion}")
+        runtimeOnly("io.jsonwebtoken:jjwt-impl:${jjwtVersion}")
+        runtimeOnly("io.jsonwebtoken:jjwt-jackson:${jjwtVersion}")
 
-			// DB
-			runtimeOnly ("com.h2database:h2")
-			implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+        // DB
+        runtimeOnly("com.h2database:h2")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-			// OkHttp
-			implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-		}
-	}
+        // OkHttp
+        implementation("com.squareup.okhttp3:okhttp:${okhttpVersion}")
 
-	project(":szs-common-core") {
-		dependencies {
-			// Jackson
-			implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-			implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
-			implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
-		}
-	}
+        // Swagger
+        implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    }
+}
+
+project(":szs-common-core") {
+    dependencies {
+        // Jackson
+        implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
+        implementation("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
+    }
+}

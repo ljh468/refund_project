@@ -3,7 +3,7 @@ package com.szs.app.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szs.app.domain.entity.YearEndTaxScrapHistory;
-import com.szs.app.global.scrap.response.ApiResponse;
+import com.szs.app.global.scrap.response.ApiResponseData;
 import com.szs.app.global.scrap.szs.SzsRestApiHelper;
 import com.szs.app.repository.YearEndTaxScrapHistoryRepository;
 import com.szs.app.service.YearEndTaxScrapHistoryService;
@@ -22,13 +22,13 @@ public class YearEndTaxScrapHistoryServiceImpl implements YearEndTaxScrapHistory
   private final YearEndTaxScrapHistoryRepository yearEndTaxScrapHistoryRepository;
 
   @Override
-  public ApiResponse scrap(String name, String regNo) {
+  public ApiResponseData scrap(String name, String regNo) {
     SzsRestApiHelper apiHelper = new SzsRestApiHelper();
     Map<String, Object> request = apiHelper.newScrapByUserRequest(name, regNo);
 
-    ApiResponse responseObj = null;
+    ApiResponseData responseObj = null;
     try {
-      responseObj = new ObjectMapper().readValue(apiHelper.scrap(request), ApiResponse.class);
+      responseObj = new ObjectMapper().readValue(apiHelper.scrap(request), ApiResponseData.class);
     } catch (JsonProcessingException jsonProcessingException) {
       log.error("JsonProcessingException: {}", jsonProcessingException.getMessage());
     }
