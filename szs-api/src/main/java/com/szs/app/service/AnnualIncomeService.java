@@ -10,5 +10,5 @@ public interface AnnualIncomeService {
 
   AnnualIncome findByUserIdAndIncomeYearNotDeleted(String userId, String scrapYear);
 
-  List<AnnualIncome> findAllByUserId(String id);
+  List<AnnualIncome> findAllWithRefundByUserId(String id);
 }
