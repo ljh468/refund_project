@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface AnnualIncomeRepository extends JpaRepository<AnnualIncome, Long> {
 
-  AnnualIncome findByUserIdAndIncomeYearAndIsDeletedFalse(String userId, String valueOf);
+  @Query("select a from AnnualIncome a join fetch a.refund where a.user.id = :userId and a.incomeYear = :scrapYear and a.isDeleted = false")
+  AnnualIncome findByUserIdAndIncomeYearAndIsDeletedFalse(String userId, String scrapYear);
 
-  List<AnnualIncome> findAllByUserIdAndIsDeletedFalse(String userId);
+  @Query("select a from AnnualIncome a join fetch a.refund where a.user.id = :userId and a.isDeleted = false")
+  List<AnnualIncome> findAllWithRefundByUserIdAndIsDeletedFalse(String userId);
 }

@@ -24,12 +24,12 @@ public class AnnualIncomeServiceImpl implements AnnualIncomeService {
   }
 
   @Override
-  public AnnualIncome findByUserIdAndIncomeYearNotDeleted(String userId, String valueOf) {
-    return annualIncomeRepository.findByUserIdAndIncomeYearAndIsDeletedFalse(userId, valueOf);
+  public AnnualIncome findByUserIdAndIncomeYearNotDeleted(String userId, String scrapYear) {
+    return annualIncomeRepository.findByUserIdAndIncomeYearAndIsDeletedFalse(userId, scrapYear);
   }
 
   @Override
-  public List<AnnualIncome> findAllByUserId(String userId) {
-    return annualIncomeRepository.findAllByUserIdAndIsDeletedFalse(userId);
+  public List<AnnualIncome> findAllWithRefundByUserId(String userId) {
+    return annualIncomeRepository.findAllWithRefundByUserIdAndIsDeletedFalse(userId);
   }
 }

@@ -1,8 +1,6 @@
 package com.szs.app.service.impl;
 
 import com.szs.app.domain.entity.AnnualIncome;
-import com.szs.app.domain.entity.Refund;
-import com.szs.app.repository.RefundRepository;
 import com.szs.app.service.AnnualIncomeService;
 import com.szs.app.service.AnnualIncomeCompoundService;
 import com.szs.app.service.RefundService;
@@ -34,8 +32,8 @@ public class AnnualIncomeCompoundServiceImpl implements AnnualIncomeCompoundServ
   @Override
   @Transactional
   public List<AnnualIncome> getCalculatedAnnualIncomesByUserId(String userId) {
-    List<AnnualIncome> annualIncomes = annualIncomeService.findAllByUserId(userId);
-    annualIncomes.forEach(annualIncome -> {
+    List<AnnualIncome> annualIncomesWithRefund = annualIncomeService.findAllWithRefundByUserId(userId);
+    annualIncomesWithRefund.forEach(annualIncome -> {
       if (isNull(annualIncome.getRefund())) {
         // NOTE: 환급액 계산
         annualIncome.calculateRefund();
@@ -47,6 +45,6 @@ public class AnnualIncomeCompoundServiceImpl implements AnnualIncomeCompoundServ
         refundService.save(annualIncome.getRefund());
       }
     });
-    return annualIncomes;
+    return annualIncomesWithRefund;
   }
 }
