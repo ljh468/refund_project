@@ -6,14 +6,7 @@
 - 로컬 서버 실행 후 Swagger UI 접속
 - Swagger UI 주소 : [http://localhost:9900/swagger-ui/index.html](http://localhost:9900/swagger-ui/index.html)
 
-# 구현 여부
-1. 회원가입 (✔️)
-2. 로그인 (✔️)
-3. 내 정보 조회 (✔️)
-4. 내 정보 연말정산 스크랩 (✔️)
-5. 환급금 계산 (✔️)
-
-# 구현 방법
+# 구현
 #### 1. 회원가입
 
 - end_point: `/szs/signup [POST]`
