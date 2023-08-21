@@ -94,6 +94,7 @@
   * 환급 (Refund)
     - 유저의 환급 정보를 관리
 
-<img width="1517" alt="szsEntity" src="https://github.com/ljh468/refund_project/assets/64997253/71c28f91-e806-4c7d-9bc9-9edc54230738">
+<img width="1372" alt="image" src="https://github.com/ljh468/refund_project/assets/64997253/9613901a-40e0-4227-9641-0733e688923e">
+
 
 
