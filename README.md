@@ -1,4 +1,4 @@
-# 연말정산 환급금 조회 애플리케이션 (Refund)
+# (Refund)
 
 - H2 데이터베이스 실행
 - H2 웹 콘솔 : [localhost:9900/h2-console](http://localhost:9900/h2-console)
